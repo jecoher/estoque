@@ -1,3 +1,8 @@
+# IDENTIDADE GITHUB
+# git config --global user.name "Seu Nome"
+# git config --global user.email "seu.email@exemplo.com"
+
+# git clone https://github.com/seu-usuario/seu-repositorio.git
 # quando começar
 # git pull origin main
 

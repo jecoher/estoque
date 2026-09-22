@@ -1,3 +1,11 @@
+# quando começar
+# git pull origin main
+
+# Quando terminar o expediente
+# github git add .
+# git commit -m "Resumo do que foi feito no serviço hoje"
+# git push origin main
+
 class Produtos:
     lista_productos = []
 

@@ -1,0 +1,1 @@
+correccion valdiacion opcion 2, adicion de edicion en opcion 2

@@ -1,2 +1,4 @@
-else:
-                print("Producto no encontrado!")
+[n]ombre
+                    [p]precio
+                    [c]antidad
+                    [v]olver al menu principal

@@ -17,7 +17,7 @@ def validacion_valores_num_producto(opcion_usuario):
     
 def validacion_int_user(opcion_usuario):
     '''
-    valida si la opcion digitada por usuario no es negativa ni un espacio en blanco o una str.
+    valida si la opcion digitada por usuario no es ntiva ni un espacio en blanco o una str.
     '''
     try: 
         opcion_usuario_int = int(opcion_usuario)

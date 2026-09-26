@@ -43,14 +43,20 @@ def vender_producto(lista, id_vender, cantidad):
         return float(total_cobrar)
 
 def reabastecer_con_id(lista, id_reavastecer, cantidad):
-    producto_encontrado = pro
+    producto_encontrado = buscar_prodcuto_por_id(lista, id_reavastecer)
+    if producto_encontrado is None:
+        return None
+    else:
+        producto_encontrado["cantidad"] += cantidad
+        return producto_encontrado
 
 
-id_objetivo = 51
-accion = "eliminar"        
+id_objetivo = 1
+accion = "reabastecer"        
 unidades_operacion = 4
 
 producto_encontrado = buscar_prodcuto_por_id(lista_productos, id_objetivo)
+
 
 if accion == 'vender':
     venta = vender_producto(lista_productos, id_objetivo, unidades_operacion)
@@ -63,9 +69,14 @@ if accion == 'vender':
 
 
 elif accion == 'reabastecer':
-    producto_encontrado['cantidad'] += unidades_operacion
-    print(f"Fueron adicionados para cod {producto_encontrado['id']} {producto_encontrado['nombre']} {unidades_operacion} unidades. Ahora tiene {producto_encontrado['cantidad']} unidades")
-
+    
+    reabastecer = reabastecer_con_id(lista_productos, id_objetivo, unidades_operacion)
+    if reabastecer is None:
+        print("Producto no encontrado!")
+    else:
+        print("prodcuto reabastecido con exito!")
+        print(f"Fueron adicionados para cod {reabastecer['id']} {reabastecer['nombre']} {unidades_operacion} unidades. Ahora tiene {reabastecer['cantidad']} unidades")
+        print(reabastecer)
 
 elif accion == "eliminar":
     eliminar = eliminar_producto_por_id(lista_productos, id_objetivo)

@@ -10,11 +10,10 @@ def buscar_prodcuto_por_id(lista, id_busca):
             return producto
     return None
 
-def vender_producto(diciconario_producto, cantidad):
+def vender_producto(diciconario_producto, cantidad) -> float:
     """
-    -> Devuelve el valor total a cobrar\n
-    False -> cantidad producto menor a solicitada\n
-    Float con valor total a cobrar
+    Devuelve el valor total a cobrar\n
+    >>> None: cantidad producto menor a solicitada\n
     """ 
     if diciconario_producto['cantidad'] < cantidad:
         return None
@@ -56,3 +55,20 @@ def verificar_ultimo_id_registrado(lista):
         id_exitente = [producto['id'] for producto in lista]
         mayor_id = max(id_exitente)
         return mayor_id + 1 
+
+
+
+class Producto:
+    def __init__(self, id_prod, nombre, precio, cantidad):
+        self.id = id_prod
+        self.nombre = nombre
+        self.precio = precio
+        self.cantidad = cantidad
+
+    def vender_producto(self, cantidad):
+        if self.cantidad < cantidad:
+            return None
+        else:
+            self.cantidad -= cantidad
+            total_cobrar = self.precio * cantidad
+            return float(total_cobrar)

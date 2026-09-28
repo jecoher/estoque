@@ -1,0 +1,14 @@
+[
+    {
+        "id": 2,
+        "nombre": "CAIXA CD 24 MODULOS",
+        "precio": 30.0,
+        "cantidad": 3.0
+    },
+    {
+        "id": 3,
+        "nombre": "DISJ MONO 32A",
+        "precio": 17.0,
+        "cantidad": 10.0
+    }
+]

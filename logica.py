@@ -1,3 +1,5 @@
+import json
+
 class Producto:
 
     @classmethod
@@ -37,6 +39,21 @@ class Producto:
 
     
 class Inventario:
+        
+    def cargar_json(self, ruta_archivo):
+        """
+        1. elimina lista de inventario\n
+        2. lee el archivo json y los guarda en datos_leidos\n
+        3. itera los datos leidos y cada dato llama el metodo from_dict de Producto para agregarlos uno a uno en la lista de inventario
+        """
+        with open(ruta_archivo, 'r', encoding = 'utf-8') as file:
+            self.productos.clear()
+            datos_leidos = json.load(file)
+        for dato in datos_leidos:
+            nuevo_prod = Producto.from_dict(dato)
+            self.agregar_producto(nuevo_prod)
+
+
     def __init__(self):
         self.productos = []
 
@@ -77,3 +94,9 @@ class Inventario:
             return 1
         id_maximo = max(p.id for p in self.productos) + 1
         return id_maximo
+
+    def guardar_json(self, ruta_archivo):
+        productos_dict = [producto.to_dict() for producto in self.productos]
+        with open(ruta_archivo, 'w', encoding = 'utf-8') as file:
+            json.dump(productos_dict, file, indent = 4)
+

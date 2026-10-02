@@ -65,7 +65,7 @@ class Inventario:
 
     def buscar_producto_por_id(self, id_buscar):
         """
-        itera la lista de clase inventario para identificar el id_buscar\n
+        itera el producto para identificar el id_buscar\n
         si hay match de id devuelve el diccionario del prodcuto
         >>> None si no hay match de id
         """

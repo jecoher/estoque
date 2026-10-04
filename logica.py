@@ -1,4 +1,4 @@
-import json
+import sqlite3
 
 class Producto:
 
@@ -36,8 +36,7 @@ class Producto:
 
     def to_dict(self): #serializacion
         return {'id': self.id, 'nombre': self.nombre, 'precio': self.precio, 'cantidad': self.cantidad}
-
-    
+ 
 class Inventario:
         
     def cargar_json(self, ruta_archivo):
@@ -56,12 +55,37 @@ class Inventario:
 
     def __init__(self):
         self.productos = []
+        self.nombre_db = "inventario.db"
+        self.crear_tabla()
+
+    def crear_tabla(self):
+        conn = sqlite3.connect(self.nombre_db)
+        cursor = conn.cursor()
+
+        # SQL para crear la tabla si no existe (con sus columnas estrictas)
+        instruccion_sql = """
+        CREATE TABLE IF NOT EXISTS productos(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            cantidad REAL NOT NULL,
+            precio REAL NOT NULL
+        )
+        """
+        # para enviar el codigo sql
+        cursor.execute(instruccion_sql)
+
+        # confirmacion de cambio (en la coneccion no en cursor)
+        conn.commit()
+
+        # cerrar puerta
+        conn.close()
+
 
     def agregar_producto(self, nuevo_producto):
         """
         adiciona un producto a la lista self.productos
         """
-        self.productos.append(nuevo_producto)
+        INSERTO INTO 
 
     def buscar_producto_por_id(self, id_buscar):
         """
@@ -99,4 +123,5 @@ class Inventario:
         productos_dict = [producto.to_dict() for producto in self.productos]
         with open(ruta_archivo, 'w', encoding = 'utf-8') as file:
             json.dump(productos_dict, file, indent = 4)
+
 

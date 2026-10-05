@@ -1,4 +1,4 @@
-import json
+import sqlite3
 
 class Producto:
 
@@ -36,67 +36,69 @@ class Producto:
 
     def to_dict(self): #serializacion
         return {'id': self.id, 'nombre': self.nombre, 'precio': self.precio, 'cantidad': self.cantidad}
-
-    
+ 
 class Inventario:
-        
-    def cargar_json(self, ruta_archivo):
-        """
-        1. elimina lista de inventario\n
-        2. lee el archivo json y los guarda en datos_leidos\n
-        3. itera los datos leidos y cada dato llama el metodo from_dict de Producto para agregarlos uno a uno en la lista de inventario
-        """
-        with open(ruta_archivo, 'r', encoding = 'utf-8') as file:
-            self.productos.clear()
-            datos_leidos = json.load(file)
-        for dato in datos_leidos:
-            nuevo_prod = Producto.from_dict(dato)
-            self.agregar_producto(nuevo_prod)
-
-
     def __init__(self):
         self.productos = []
+        self.nombre_db = "inventario.db"
+        self.crear_tabla()
+
+    def ejecutar_consulta(self, instruccion_sql, datos_reales=()):
+        conn = sqlite3.connect(self.nombre_db)
+        cursor = conn.cursor()
+        cursor.execute(instruccion_sql, datos_reales)
+        conn.commit()
+        resultado = cursor.fetchall() # Atrapa todo lo que el archivero encontró
+        conn.close()
+        return resultado
+
+    def crear_tabla(self):
+        # SQL para crear la tabla si no existe (con sus columnas estrictas)
+        instruccion_sql = """
+        CREATE TABLE IF NOT EXISTS productos(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            cantidad REAL NOT NULL,
+            precio REAL NOT NULL
+        )
+        """
+        self.ejecutar_consulta(instruccion_sql)
+
+    def obtener_todos_los_productos(self):
+        """
+        retorna un diccionario con tuplas de todos los productos\n
+        ex: [ (1, 'MANZANA', 100.0, 2.50), (2, 'PERA', 50.0, 3.10) ]
+        """
+        instruccion = "SELECT * FROM productos"
+        registros = self.ejecutar_consulta(instruccion)
+        return registros 
 
     def agregar_producto(self, nuevo_producto):
         """
-        adiciona un producto a la lista self.productos
+        adiciona un producto en la base de datos
         """
-        self.productos.append(nuevo_producto)
+        instruccion =  "INSERT INTO productos (nombre, precio, cantidad) VALUES (?,?,?)"
+        datos_reales = (nuevo_producto.nombre, nuevo_producto.precio, nuevo_producto.cantidad)
+        self.ejecutar_consulta(instruccion, datos_reales)
+
 
     def buscar_producto_por_id(self, id_buscar):
         """
-        itera el producto para identificar el id_buscar\n
-        si hay match de id devuelve el diccionario del prodcuto
-        >>> None si no hay match de id
+        return producto entocntrado ex: [(1, 'MANZANA', 100.0, 2.50)]
+        >>> [] si no existe
         """
-        for producto in self.productos:
-            if producto.id == id_buscar:
-                return producto
-        return None
 
-    def eliminar_producto_por_id(self,id_eliminar):
-        """
-        >>> True si elimina el producto del diccionario si lo encuentra con match del id de funcion buscar producto por id
-        >>> False si no hay math al usar funcion buscar prodcuto por id
-        """
-        busca_producto = self.buscar_producto_por_id(id_eliminar)
-        if busca_producto is None:
-            return False
-        self.productos.remove(busca_producto)
-        return True
+        instruccion = "SELECT * FROM productos WHERE id = ?"
+        id_real= (id_buscar,)
+        producto_encontrado = self.ejecutar_consulta(instruccion, id_real)
+        return producto_encontrado
 
-    def siguiente_id(self):
-        """
-        retorna el numero de id mas alto de toda la lista + 1
-        >>> None si la lista esta vacia
-        """
-        if not self.productos:
-            return 1
-        id_maximo = max(p.id for p in self.productos) + 1
-        return id_maximo
+    def eliminar_producto(self, id_eliminar):
+        instruccion = 'DELETE FROM productos WHERE id = ?'
+        id_real_eliminar = (id_eliminar,)
+        self.ejecutar_consulta(instruccion, id_real_eliminar)
 
-    def guardar_json(self, ruta_archivo):
-        productos_dict = [producto.to_dict() for producto in self.productos]
-        with open(ruta_archivo, 'w', encoding = 'utf-8') as file:
-            json.dump(productos_dict, file, indent = 4)
+
+
+
 

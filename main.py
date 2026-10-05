@@ -39,12 +39,17 @@ while True:
             for producto in inventario_completo.productos:
                     print(f"ID: {producto.id} | Nombre: {producto.nombre} | Precio: {producto.precio} | Cantidad: {producto.cantidad} |")
     elif opc_menu == '3':
-        id_buscar = int(input("Digite el ID: "))
-        producto_encontrado = inventario_completo.buscar_producto_por_id(id_buscar)
-        if producto_encontrado is None:
-            print("Producto no encontrado!")
-        else:
-            print(f"ID: {producto_encontrado.id} | Nombre: {producto_encontrado.nombre} | Precio: {producto_encontrado.precio} | Cantidad: {producto_encontrado.cantidad} |")
+        try:
+            id_buscar = int(input("Digite el ID: "))
+            producto_encontrado = inventario_completo.buscar_producto_por_id(id_buscar)
+            if producto_encontrado is None:
+                print("Producto no encontrado!")
+                continue
+            else:
+                print(f"ID: {producto_encontrado.id} | Nombre: {producto_encontrado.nombre} | Precio: {producto_encontrado.precio} | Cantidad: {producto_encontrado.cantidad} |")
+                continue
+        except ValueError:
+            print("valor id invalido!")    
     elif opc_menu == '4':
         id_eliminar = int(input("Digite el ID para eliminar: "))
         id_eliminado = inventario_completo.eliminar_producto_por_id(id_eliminar)
@@ -68,4 +73,5 @@ while True:
             else:
                 print("Producto sin estoque suficiente!") 
                 continue
+    
 

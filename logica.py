@@ -98,6 +98,10 @@ class Inventario:
         id_real_eliminar = (id_eliminar,)
         self.ejecutar_consulta(instruccion, id_real_eliminar)
 
+    def vender_producto(self, id_venda, nueva_cantidad):
+        instruccion = 'UPDATE productos SET cantidad = ? WHERE id =  ?'
+        valores_reales = (nueva_cantidad, id_venda)
+        self.ejecutar_consulta(instruccion, valores_reales)
 
 
 

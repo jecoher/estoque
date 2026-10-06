@@ -70,3 +70,30 @@ while True:
         except ValueError:     
             print("Digite un id valido!")
 
+    elif opc_menu == '5':
+        try:
+            id_venda = int(input("Digite el iD a vender: "))
+            encontrado = inventario_completo.buscar_producto_por_id(id_venda) 
+            if not encontrado:
+                print("Producto no existe!")
+                continue
+            else:
+                
+                for fila in encontrado:
+                    nombre_prod = fila[1]
+                    cantidad_actual = fila[2]
+
+                    print(f"Producto: {nombre_prod} | Cantidad: {cantidad_actual} ")
+
+                    cantidad_venda = float(input("Digite la cantidad a vender: "))
+
+                    if cantidad_actual >= cantidad_venda:
+                        nueva_cantidad = cantidad_actual - cantidad_venda
+                        inventario_completo.vender_producto(id_venda, nueva_cantidad)
+                        print("Venta exitosa!")
+                    else:
+                        print("Cantidad insuficiente de producto para esta venda!")
+
+        except ValueError:
+            print("digite un id valido!")
+

@@ -1,6 +1,6 @@
 from logica import Producto, Inventario
 
-inventario_completo = Inventario()
+inventario_completo = Inventario("inventario.db")
 
 while True:
     opc_menu = input("""

@@ -38,7 +38,7 @@ class Producto:
         return {'id': self.id, 'nombre': self.nombre, 'precio': self.precio, 'cantidad': self.cantidad}
  
 class Inventario:
-    def __init__(self):
+    def __init__(self, nombre_db):
         self.productos = []
         self.nombre_db = "inventario.db"
         self.crear_tabla()
@@ -100,7 +100,7 @@ class Inventario:
 
     def vender_producto(self, id_venda, nueva_cantidad):
         instruccion = 'UPDATE productos SET cantidad = ? WHERE id =  ?'
-        valores_reales = (nueva_cantidad, id_venda)
+        valores_reales = (nueva_cantidad, id_venda) 
         self.ejecutar_consulta(instruccion, valores_reales)
 
 

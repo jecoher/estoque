@@ -84,8 +84,8 @@ class Inventario:
 
     def buscar_producto_por_id(self, id_buscar):
         """
-        return producto entocntrado ex: [(1, 'MANZANA', 100.0, 2.50)]
-        >>> [] si no existe
+        Devuelve una lista con una tupla dentro\nex: [(1, 'MANZANA', 100.0, 2.50)] 
+        >>> lista vacia si no hay inventario registrado
         """
 
         instruccion = "SELECT * FROM productos WHERE id = ?"
